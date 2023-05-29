@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "lib-dzne-filedata"
-version = "0.1.2"
+version = "0.2.0"
 description = "Libary for filedata handling. "
 license = { file = "LICENSE" }
 authors = [{ name = "Johannes Horler", email = "johannes.horler@dzne.de" }]
@@ -16,8 +16,9 @@ classifiers = [
 ]
 keywords = []
 dependencies = [
-    "Bio>=1.5.3",
+    "openpyxl>=3.1.1",
     "pandas>=1.5.3",
+    "tomli_w>=1.0.0",
     "lib-dzne-seq>=0.2.0",
     "lib-dzne-basetables>=0.1.1",
     "lib-dzne-tsv>=0.1.6",

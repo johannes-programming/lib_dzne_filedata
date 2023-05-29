@@ -3,12 +3,10 @@ import os as _os
 import tempfile as _tmp
 import tomllib as _tomllib
 
-import Bio.Seq as _Seq
 import lib_dzne_basetables as _bt
 import lib_dzne_math.na as _na
 import lib_dzne_seq as _seq
 import lib_dzne_tsv as _tsv
-import lib_dzne_workbook as _wb
 import openpyxl as _xl
 import pandas as _pd
 import tomli_w as _tomli_w
@@ -54,7 +52,6 @@ class FileData:
         if cls._ext == _os.path.splitext(file):
             return
         raise ValueError()
-
     @classmethod
     def load(cls, /, file, **kwargs):
         if file == "":
@@ -63,7 +60,6 @@ class FileData:
             cls.check_ext(file)
             ans = cls._load(file=file, **kwargs)
         return cls(ans)
-
     def save(self, /, file, *, overwrite=False, **kwargs):
         cls = type(self)
         if file == "":
@@ -75,7 +71,6 @@ class FileData:
             ans = self._save(file=file, **kwargs)
         if ans is not None:
             raise TypeError()
-
     @classmethod
     def from_file(cls, file, /, *types):
         ext = _os.path.splitext(file)
@@ -85,11 +80,9 @@ class FileData:
             if t._ext == ext:
                 return t.load(file)
         raise ValueError()
-
     @classmethod
     def default(cls):
         return cls.load("")
-
     @property
     def data(self):
         return type(self).clone_data(self._data)
@@ -190,32 +183,42 @@ class TOMLData(FileData):
     def __init__(self, data):
         self.data = data
     def __getitem__(self, key):
-        if type(key) is tuple:
-            keys = key
-        else:
-            keys = key,
-        keytypes = {list:int, dict:str}
-        target = self._data
-        for i, key in enumerate(keys):
-            k = keytypes[type(target)](key)
-            target = target[k]
-        return self.clone_data(target)
+        keys = self._getkeys(key)
+        ans = self._getitem(*keys)
+        ans = self.clone_data(ans)
+        return ans
     def __setitem__(self, key, value):
-        if type(key) is tuple:
-            keys = key
-        else:
-            keys = key,
         value = self.clone_data(value)
-        keytypes = {list:int, dict:str}
+        keys = self._getkeys(key)
+        target = self._getitem(*(keys[:-1]))
+        if (type(target) is dict) and (type(keys[-1]) is not str):
+            raise TypeError()
+        target[keys[-1]] = value
+    def __delitem__(self, key):
+        keys = self._getkeys(key)
+        target = self._getitem(*(keys[:-1]))
+        del target[keys[-1]]
+    @staticmethod
+    def _getkeys(key):
+        if type(key) is tuple:
+            return key
+        else:
+            return key,
+    def _getitem(self, *keys):
         target = self._data
-        for i, key in enumerate(keys):
-            k = keytypes[type(target)](key)
-            if i == len(keys) - 1:
-                target[k] = value
-            else:
-                target = target[k]
-    def items(self):
-        return self.data.items()
+        for key in keys:
+            target = target[key]
+        return target
+    def items(self, *keys):
+        return self[keys].items()
+    def append(self, *args):
+        *keys, value = args
+        self._getitem(*keys).append(value)
+    def get(self, *keys, default=None):
+        try:
+            return self[keys]
+        except KeyError:
+            return default
     @classmethod
     def clone_data(cls, data):
         if _na.isna(data):
