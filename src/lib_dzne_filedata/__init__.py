@@ -222,6 +222,8 @@ class TOMLData(FileData):
             return float('nan')
         if type(data) in (str, int, bool, float):
             return data
+        if data == str(data):
+            return str(data)
         try:
             data = dict(data)
         except:
