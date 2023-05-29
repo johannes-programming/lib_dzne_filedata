@@ -47,7 +47,7 @@ class FileData:
         txtdata = TXTData([string])
         with _tmp.TemporaryDirectory() as directory:
             txtfile = _os.path.join(directory, "b"+TXTData.ext())
-            file = _os.path.join(directory, "a"+self.ext())
+            file = _os.path.join(directory, "a"+cls.ext())
             txtdata.save(txtfile)
             _os.rename(txtfile, file)
             return cls.load(file)
@@ -63,9 +63,9 @@ class FileData:
     def check_ext(cls, /, file):
         if cls._ext is None:
             return
-        if cls._ext == _os.path.splitext(file):
+        if cls._ext == _os.path.splitext(file)[1]:
             return
-        raise ValueError()
+        raise ValueError(f"{file.__repr__()} has an illegal extension! ")
     @classmethod
     def load(cls, /, file, **kwargs):
         if file == "":
@@ -102,7 +102,7 @@ class FileData:
         return type(self).clone_data(self._data)
     @data.setter
     def data(self, value):
-        self._data = type(self).clone_data(self._data)
+        self._data = type(self).clone_data(value)
 
 
 
@@ -162,7 +162,6 @@ class TOMLData(FileData):
         return self._add(self, other)
     def __radd__(self, other):
         return self.__add__(other)
-
     @classmethod
     def _add(cls, *objs):
         ans = cls.default()
@@ -209,7 +208,6 @@ class TOMLData(FileData):
         for k, v in gen:
             for keys, value in cls._iteritems(v):
                 yield ((k,) + keys), value
-
     @classmethod
     def clone_data(cls, data):
         if issubclass(type(data), cls):
