@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=61.0.0"]
+build-backend = "setuptools.build_meta"
+
+
+[project]
+name = "lib-dzne-filedata"
+version = "0.1.0"
+description = "Libary for filedata handling. "
+license = { file = "LICENSE" }
+authors = [{ name = "Johannes Horler", email = "johannes.horler@dzne.de" }]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+]
+keywords = []
+dependencies = [
+    "pandas>=1.5.3",
+    "lib-dzne-seq>=0.2.0",
+    "Bio>=1.5.3",
+    "lib-dzne-basetables>=0.1.1",
+    "lib-dzne-tsv>=0.1.6"
+]
+requires-python = ">=3.11"
+
