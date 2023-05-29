@@ -4,15 +4,14 @@ import tempfile as _tmp
 import tomllib as _tomllib
 
 import Bio.Seq as _Seq
-import Bio.SeqIO as _SeqIO
-import Bio.SeqRecord as _SeqRecord
 import lib_dzne_basetables as _bt
+import lib_dzne_math.na as _na
+import lib_dzne_seq as _seq
 import lib_dzne_tsv as _tsv
 import lib_dzne_workbook as _wb
 import openpyxl as _xl
 import pandas as _pd
 import tomli_w as _tomli_w
-import lib_dzne_seq as _seq
 
 
 class _File:
@@ -219,7 +218,7 @@ class TOMLData(FileData):
         return self.data.items()
     @classmethod
     def clone_data(cls, data):
-        if data is None:
+        if _na.isna(data):
             return float('nan')
         if type(data) in (str, int, bool, float):
             return data
@@ -312,7 +311,7 @@ class WorkbookData(FileData):
         cell.alignment = _xl.styles.Alignment()#horizontal='general')
 
 
-class SeqReadData:
+class SeqReadData(FileData):
     @staticmethod
     def clone_data(data):
         return _seq.SeqRead(read=data)
