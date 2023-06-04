@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "lib-dzne-filedata"
-version = "0.4.1"
+version = "0.4.2"
 description = "Libary for filedata handling. "
 license = { file = "LICENSE" }
 authors = [{ name = "Johannes Horler", email = "johannes.horler@dzne.de" }]
@@ -17,7 +17,7 @@ classifiers = [
 keywords = []
 dependencies = [
     "tomli_w>=1.0.0",
-    "lib-dzne-math>=0.2.0",
+    "lib-dzne-math>=0.2.3",
 ]
 requires-python = ">=3.11"
 
