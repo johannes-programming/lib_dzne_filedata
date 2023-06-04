@@ -44,7 +44,7 @@ class FileData:
         return str(txtdata)
     @classmethod
     def from_str(cls, string, /):
-        txtdata = TXTData([string])
+        txtdata = TXTData.from_str(string)
         with _tmp.TemporaryDirectory() as directory:
             txtfile = _os.path.join(directory, "b"+TXTData.ext())
             file = _os.path.join(directory, "a"+cls.ext())
@@ -61,8 +61,6 @@ class FileData:
         return cls._ext
     @classmethod
     def check_ext(cls, /, file):
-        if cls._ext is None:
-            return
         if cls._ext == _os.path.splitext(file)[1]:
             return
         raise ValueError(f"{file.__repr__()} has an illegal extension! ")
@@ -72,7 +70,10 @@ class FileData:
             ans = cls._default()
         else:
             cls.check_ext(file)
-            ans = cls._load(file=file, **kwargs)
+            try:
+                ans = cls._load(file=file, **kwargs)
+            except:
+                raise ValueError(f"Loading file {file.__repr__()} failed! ")
         return cls(ans)
     def save(self, /, file, *, overwrite=False, **kwargs):
         cls = type(self)
@@ -113,6 +114,12 @@ class TXTData(FileData):
         for line in self._data:
             ans += line
             ans += '\n'
+        return ans
+    @classmethod
+    def from_str(cls, string, /):
+        string = str(string)
+        data = string.split('\n')
+        ans = cls(data)
         return ans
     @classmethod
     def _load(cls, /, file):
