@@ -86,7 +86,7 @@ class FileData:
             raise TypeError()
     @classmethod
     def from_file(cls, file, /, *types):
-        ext = _os.path.splitext(file)
+        ext = _os.path.splitext(file)[1]
         for t in types:
             if not issubclass(t, cls):
                 raise ValueError()
