@@ -30,7 +30,7 @@ class _File:
 
 class FileData:
     def __init__(self, data):
-        if issubclass(type(data), type(self)):
+        if issubclass(type(data), FileData):
             self.data = data._data
         else:
             self.data = data
@@ -51,8 +51,6 @@ class FileData:
             txtdata.save(txtfile)
             _os.rename(txtfile, file)
             return cls.load(file)
-
-
     @classmethod
     def file(cls, /, string):
         return _File(fileDataType=cls, string=string)
