@@ -2,13 +2,12 @@
 requires = ["setuptools>=61.0.0"]
 build-backend = "setuptools.build_meta"
 
-
 [project]
-name = "lib-dzne-filedata"
-version = "0.5.0"
+name = "lib_dzne_filedata"
+version = "0.5.1"
 description = "Libary for filedata handling. "
-license = { file = "LICENSE" }
-authors = [{ name = "Johannes Horler", email = "johannes.horler@dzne.de" }]
+readme = "README.md"
+authors = [{ name = "Johannes", email = "johannes-programming@posteo.org" }]
 classifiers = [
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python",
@@ -17,7 +16,14 @@ classifiers = [
 keywords = []
 dependencies = [
     "tomli_w>=1.0.0",
-    "lib-dzne-math>=0.2.3",
+    "lib_dzne_math>=0.2.3",
 ]
 requires-python = ">=3.11"
+
+[project.license]
+file = "LICENSE.txt"
+
+[project.urls]
+Download = "https://pypi.org/project/lib-dzne-filedata/#files"
+Source = "https://github.com/johannes-programming/lib_dzne_filedata"
 
