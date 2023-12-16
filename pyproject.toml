@@ -4,9 +4,9 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "lib_dzne_filedata"
-version = "0.5.1"
+version = "0.5.2"
 description = "Libary for filedata handling. "
-readme = "README.md"
+readme = "README.rst"
 authors = [{ name = "Johannes", email = "johannes-programming@posteo.org" }]
 classifiers = [
     "License :: OSI Approved :: MIT License",
